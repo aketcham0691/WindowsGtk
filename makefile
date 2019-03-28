@@ -38,10 +38,10 @@ all: $(OBJS)
 	@echo "here"
 	$(CC) -c -o $@ $(CCFLAGS) $(GTKLIB) $<
 
-gtktest.gresource: resources/gtktest.gresource.xml
+gtktest.gresource: resources/gtktest.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies resources/gtktest.gresource.xml --sourcedir=resources)
 	$(GLIB_COMPILE_RESOURCES) resources/gtktest.gresource.xml --target=$@ --sourcedir=resources
 
-src/resources.c: resources/gtktest.gresource.xml
+src/resources.c: resources/gtktest.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies resources/gtktest.gresource.xml --sourcedir=resources)
 	$(GLIB_COMPILE_RESOURCES) resources/gtktest.gresource.xml --target=$@ --sourcedir=resources --generate-source
 
 clean:
